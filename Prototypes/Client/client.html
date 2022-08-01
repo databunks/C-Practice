@@ -1,0 +1,24 @@
+<html>
+
+
+<script src="ECC.js">
+</script>
+
+
+<script>
+async function wag1()
+{
+  const privateKey = utils.randomPrivateKey();
+  const message = Uint8Array.from([0xab, 0xbc, 0xcd, 0xde]);
+  const publicKey = await getPublicKey(privateKey);
+  console.log(publicKey)
+  const signature = await sign(message, privateKey);
+  console.log(signature)
+  const isValid = await verify(signature, message, publicKey);
+  console.log(isValid)
+}
+  wag1()
+
+</script>
+
+</html>
