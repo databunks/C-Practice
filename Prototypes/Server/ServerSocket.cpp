@@ -56,7 +56,7 @@ int main(void)
         return -4;
     }
 
-    memset(host, 0, NI_MAXHOST);
+    memset(host, 0, NI_MAXHOST); // alt: std::array<char,NI_MAXHOST> arr{0};
     memset(svc, 0, NI_MAXSERV);
 
     int result = getnameinfo(
