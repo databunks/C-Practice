@@ -1,15 +1,11 @@
 "use strict";
-const http = require('http');
-const fs = require('fs');
-const hostname = '127.0.0.1';
+const express = require('express');
+const path = require('path');
+const app = express();
 const port = 3000;
-fs.readFile('../../Views/client.html', function (err, html) {
-    if (err) {
-        throw err;
-    }
-    http.createServer(function (request, response) {
-        response.writeHeader(200, { "Content-Type": "text/html" });
-        response.write(html);
-        response.end();
-    }).listen(port);
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '../../Views/client.html'));
+});
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
 });

@@ -1,17 +1,13 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express')
+const path = require('path');
 
-const port = 3000;
+const app = express()
+const port = 3000
 
-fs.readFile('../../Views/client.html', function (err : any, html : any) {
-
-  if (err) {
-      throw err; 
-  }       
-  http.createServer(function(request : any, response : any) {  
-      response.writeHeader(200, {"Content-Type": "text/html"});  
-      response.write(html);  
-      response.end();  
-  }).listen(port);
-
+app.get('/', function(req : any, res : any) {
+  res.sendFile(path.join(__dirname, '../../Views/client.html'));
 });
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
