@@ -762,7 +762,7 @@
         node: nodeCrypto,
         web: typeof self === 'object' && 'crypto' in self ? self.crypto : undefined,
     };
-    const utils = {
+    export const utils = {
         TORSION_SUBGROUP: [
             '0100000000000000000000000000000000000000000000000000000000000000',
             'c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a',
