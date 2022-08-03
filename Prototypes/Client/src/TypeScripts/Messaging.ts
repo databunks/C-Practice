@@ -1,0 +1,5 @@
+
+function SendMessage(message : string)
+{
+    
+}
