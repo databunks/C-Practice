@@ -27,7 +27,7 @@ void SpaceShipAndStd()
     std::cout << "The value: " <<  result  << "\n" << std::endl;
 
     float A = 0.0; 
-    float B = 0.0;
+    float B = -0.0;
   
     // Find the value of 3 way comparison
     auto ans = A <=> B;
@@ -49,7 +49,7 @@ void SpaceShipAndStd()
 void VariableInitialization()
 {
     // Braced
-   // int brace {2.9};  // will throw an error since can only be an int
+   // int brace {2.9};  // will throw an error since can only be an int preffered way of initializing variables
 
     // Functional
     int functionalWan (2.9); // will chop off the .9
@@ -119,6 +119,60 @@ void Integers()
     double no2 {1.922323e8};
     double no3 {1.92e-11};
 
+
+    // size_t usually used when we want to iterate through an array its basically like an optimized unsigned long int 
+    // Using size_t appropriately can improve the portability, efficiency, or readability of your code. Maybe even all three.
+    size_t e{0}; 
+
+    const int fortnite{0}; // constants also exist
+
+}
+
+// alternate ways of doing shit with arrays
+// ARRAYS ALWAYS STORE ELEMENTS OF THE SAME TYPE
+void IntegerArrays()
+{
+    for (size_t i{0}; i < 10; i++) 
+    {
+        printf("Sup\n");
+    }
+
+    int rockets[5] {5,4,3}; // rest are set to 0
+
+    for (size_t i{0}; i < sizeof(rockets) / sizeof(rockets[0]); i++) // think of the size of the array and the size of the first int
+    {
+        std::cout << rockets[i] << std::endl;
+    }
+
+    for (size_t i{0}; i < std::size(rockets); i++) // can also use c++ std library to get size
+    {
+        std::cout << rockets[i] << std::endl;
+    }
+
+    int rpgRockets[] {5,4,3,2,21,1,2};
+
+    for (int value : rpgRockets) // colon operator
+    {
+        std::cout << "RPG rocket stock: " << value << std::endl; 
+    }
+
+    int noRockets[10];
+
+    std::cout << "Junk data what fucking rocket stats are these: " << noRockets[0] << std::endl;
+
+
+}
+
+// Cant direct print arrays other than character wans
+void CharacterArrays()
+{
+    char msg [15] {'T','r','i','o','c','f','a','d','h',' ','a','r',' ','l','a', '\0'};  // a \0 is a null termination string which tells c++ we hit the end although the compiler auto adds it
+
+    std::cout << msg << std::endl;
+
+    char HelloWorld [13] {"Wassup pakis"};
+
+    std::cout << HelloWorld << std::endl;
 }
 
 int main(void)
@@ -127,7 +181,9 @@ int main(void)
 //    VariableInitialization();
 //    ReadMeInSomeShit();
 //    NumberSystems();
-    Integers();
+//    Integers();
+//    IntegerArrays();
+CharacterArrays();
 
 }
 
