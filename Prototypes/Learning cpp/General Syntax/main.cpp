@@ -166,7 +166,7 @@ void IntegerArrays()
 // Cant direct print arrays other than character wans
 void CharacterArrays()
 {
-    char msg [15] {'T','r','i','o','c','f','a','d','h',' ','a','r',' ','l','a', '\0'};  // a \0 is a null termination string which tells c++ we hit the end although the compiler auto adds it
+    char msg [15] {'T','r','i','o','c','f','a','d','h',' ','a','r',' ','l','a'};  // a \0 is a null termination string which tells c++ we hit the end although the compiler auto adds it
 
     std::cout << msg << std::endl;
 
@@ -175,15 +175,54 @@ void CharacterArrays()
     std::cout << HelloWorld << std::endl;
 }
 
-int main(void)
+// ALL POINTERS VARIABLES HAVE THE SAME SIZE
+// Like attracts like you cant store a double address in an integer pointer
+void Pointers()
 {
+    
+    int* pointer1{}; // braces initialize it to point to nothing 
+    int* pointer2{nullptr}; // or explicitly say its pointing to nothing
+
+    //dont declare pointers and integers like this because the second one is actually an integer and you need to put a fucking star beside it
+    int* pointer420{}, pointer421{};
+
+    int integerVar{30};
+    pointer1 = &integerVar; // storing the addr of integerVar
+
+    std::cout << pointer1 << std::endl;
+
+    //dereference them by just adding a *
+    std::cout << *pointer1 << std::endl;
+
+    //Character pointers are really special, u can initialize them with 
+
+    
+
+    const char* specialCharPtr {"Moweoijweiodjttyu"}; // whats happening here is the string gets expanded into a character array the first character of the array is going to be pointed to by specialCharPtr
+
+    std::cout << specialCharPtr << std::endl; // this just spits out the whole string 
+
+    std::cout << *specialCharPtr << std::endl; // deferencing it points to the first char
+
+    // Cant be doing shite like this *specialCharPtr = 'N';
+    // try always declaring char* with consts because of shit like this 
+    // if you want to modify this char* use regular arrays
+
+    
+}
+
+
+int main(void)
+{  
+
 //    SpaceShipAndStd();
 //    VariableInitialization();
 //    ReadMeInSomeShit();
 //    NumberSystems();
 //    Integers();
 //    IntegerArrays();
-CharacterArrays();
+// CharacterArrays(); 
+Pointers();
 
 }
 
