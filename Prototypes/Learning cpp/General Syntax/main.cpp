@@ -177,6 +177,7 @@ void CharacterArrays()
 
 // ALL POINTERS VARIABLES HAVE THE SAME SIZE
 // Like attracts like you cant store a double address in an integer pointer
+// just working with the stack here
 void Pointers()
 {
     
@@ -206,8 +207,94 @@ void Pointers()
 
     // Cant be doing shite like this *specialCharPtr = 'N';
     // try always declaring char* with consts because of shit like this 
-    // if you want to modify this char* use regular arrays
+    // if you want to modify this char* use regular arrays   
+}
 
+
+// Gonna be using more of the heap
+void DynamicMemory()
+{
+    int *ptr1{};
+
+    ptr1 = new int; // We are basically allocating space for a single int on the heap
+                    // the memory belongs to our program from now on
+                    // cant use it for anything else until we return it
+                    // After this line executes we have a valid memory location allocated
+                     // the size of the allocated memory will be such that can store hte type pointed to by the pointer
+
+    *ptr1 = 4200;
+
+    std::cout << *ptr1 << std::endl;
+
+    {
+        int int1{30}; // cant access outside of the scope since its in the stack
+        int *int1Ptr = new int; // this can be accessed outside of the scope since memory is being allocated from the heap and explicitly declared by the developer, the line above cant since its being declared on the stack
+
+        *int1Ptr = 60;
+
+        std::cout << *int1Ptr << std::endl;
+
+        delete int1Ptr; // freeing the memory
+        int1Ptr = nullptr; // assigning it to null
+    }
+
+    // Dynamic allocation initialization
+    int *pNumber1{new int}; // Memory points to junk value
+    int *pNumber2{new int (23)};
+    int *pNumber3{new int {46}};
+
+    std::cout << *pNumber1 << std::endl;
+    std::cout << *pNumber2 << std::endl;
+    std::cout << *pNumber3 << std::endl;
+
+    // always remember to release when your finished
+    
+    delete pNumber1;
+    pNumber1 = nullptr;
+
+    delete pNumber2;
+    pNumber2 = nullptr;
+
+    delete pNumber3;
+    pNumber3 = nullptr;
+
+}
+
+
+void DanglingPointers()
+{
+    // case 1: Uninitialized pointer
+    int *p_number1; // Dangling uninitialized pointer
+    std::cout << *p_number1 << std::endl; // crash or just random shit
+
+    // case 2: deleted pointer
+    int* p_number2{new int(45)};
+
+    // Before delete
+    std::cout << *p_number2 << std::endl;
+
+    delete p_number2;
+
+    // After delete
+    std::cout << *p_number2 << std::endl; // random shite
+
+    // Case 3: multiple pointers pointing to the same address
+
+    int *p_number3{new int(34)};
+    int *p_number4{p_number3};
+
+    std::cout << *p_number3 << std::endl;
+    std::cout << *p_number4 << std::endl;
+
+    // Deleting p_number3 
+    delete p_number3;
+
+    std::cout << *p_number4 << std::endl; // garbage or crash
+
+    // Solutions
+    // Initialize your pointers
+    // Reset pointers after delete
+    // For multiple pointers to the same address make sure the owner (MASTER) pointer is very clear
     
 }
 
@@ -221,8 +308,11 @@ int main(void)
 //    NumberSystems();
 //    Integers();
 //    IntegerArrays();
-// CharacterArrays(); 
-Pointers();
+//    CharacterArrays(); 
+//    Pointers();
+//    DynamicMemory();
+
+DanglingPointers();
 
 }
 
