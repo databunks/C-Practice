@@ -298,6 +298,171 @@ void DanglingPointers()
     
 }
 
+// How to run out of memory :)
+// ⢿⣿⣿⣿⣭⠹⠛⠛⠛⢿⣿⣿⣿⣿⡿⣿⠷⠶⠿⢻⣿⣛⣦⣙⠻⣿
+// ⣿⣿⢿⣿⠏⠀⠀⡀⠀⠈⣿⢛⣽⣜⠯⣽⠀⠀⠀⠀⠙⢿⣷⣻⡀⢿
+// ⠐⠛⢿⣾⣖⣤⡀⠀⢀⡰⠿⢷⣶⣿⡇⠻⣖⣒⣒⣶⣿⣿⡟⢙⣶⣮
+// ⣤⠀⠀⠛⠻⠗⠿⠿⣯⡆⣿⣛⣿⡿⠿⠮⡶⠼⠟⠙⠊⠁⠀⠸⢣⣿
+// ⣿⣷⡀⠀⠀⠀⠀⠠⠭⣍⡉⢩⣥⡤⠥⣤⡶⣒⠀⠀⠀⠀⠀⢰⣿⣿
+// ⣿⣿⡽⡄⠀⠀⠀⢿⣿⣆⣿⣧⢡⣾⣿⡇⣾⣿⡇⠀⠀⠀⠀⣿⡇⠃
+// ⣿⣿⣷⣻⣆⢄⠀⠈⠉⠉⠛⠛⠘⠛⠛⠛⠙⠛⠁⠀⠀⠀⠀⣿⡇⢸
+// ⢞⣿⣿⣷⣝⣷⣝⠦⡀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⠀⠀⠀⠛⣿⠈
+// ⣦⡑⠛⣟⢿⡿⣿⣷⣝⢧⡀⠀⠀⣶⣸⡇⣿⢸⣧⠀⠀⠀⠀⢸⡿⡆
+// ⣿⣿⣷⣮⣭⣍⡛⠻⢿⣷⠿⣶⣶⣬⣬⣁⣉⣀⣀⣁⡤⢴⣺⣾⣽⡇
+void FailingNewOperatorAndTryCatches()
+{
+    // try catches in c++ exist too :)
+    try
+    {
+        long* fuckTonOfIntsPtr {new long[9999999999999]}; // Crashes because allocating an insane amount of space in one go
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n'; // what just means what kind of problem
+    }
+
+    // if you want no exceptions thrown just use this
+
+    for (size_t i{}; i < 1000000000; i++)
+    {
+        int* lottaInts{new (std::nothrow) int[10000000000]};
+
+        if (lottaInts == nullptr)
+        {
+            //Don't try to dereference and use lottaints here
+            // youll get UB no memory has been allocated here
+            // it failed and returned nullptr because of the std::nothrow setting
+        }
+    }
+    
+    
+
+    // Or use a huge loop to fuck up the amount of memory you have (i have alot of ram so doesent crash on mine lol)
+    for (size_t i{}; i < 1000000000000000000000000; i++)
+    {
+        int* lotsOfFookinInts{new int[10000]};
+    }
+}
+
+// Making sure you are working with pointers with valid memory addresses
+void NullPointerSafety()
+{
+    
+    int* int1Ptr{};
+
+    // Verbose nullptr check
+    if (!(int1Ptr == nullptr))
+    {
+        std::cout << "Points to a VALID address" << std::endl;
+    }
+    else std::cout << "Points to an INVALID address" << std::endl;
+
+    int1Ptr = new int(420);
+
+    // Compact nullptr check
+    if (int1Ptr) // returns 1 if no nullptr
+    {
+        std::cout << "Points to a VALID address" << std::endl;
+    }
+    else std::cout << "Points to an INVALID address" << std::endl;
+
+
+    delete int1Ptr;
+    int1Ptr = nullptr; 
+    delete int1Ptr; // wont cause any problems if int1Ptr contains contains nullptr
+
+
+    if (int1Ptr) // nullptr check (dont need to do things like this)
+    {
+        delete int1Ptr;
+        int1Ptr = nullptr;
+    }
+}
+
+
+// Losing access to memory that was dynamically allocated
+void MemoryLeaks()
+{
+    // Example 1
+    // Assigning an address to a pointer after allocating memory to it and not deleting
+    int* intPtr1 {new int{42}}; // Points to some address (addr1)
+
+    // Should delete and reset here
+
+    int int1{55};  // lives at addr2
+
+    intPtr1 = &int1; // now intPtr1 points to addr2 but
+                     // addr1 is still in use by the program but we lost access to that memory location
+                     // memory has been leaked
+
+                    
+    // Example 2
+    // Double allocation
+    int *intPtr2 {new int{34}};
+
+    // Use the pointer
+
+    // Should delete and reset here
+
+    intPtr2 = new int{534}; // memory with int 34 leaked
+
+    // Example 3
+    // Pointer in nested scope
+
+    {
+        int *intPtr3 {new int{56}};
+    }
+
+    // Memory with int{56} leaked
+}
+
+// Arrays are allocated on the heap with the enw operator
+void DynamicArrays()
+{
+    // Different ways of declaring an array dynamically
+    // and how they are initialized
+
+    size_t size{10};
+
+    int *p_bugattis {new int[size]}; // will contain garbage values
+    int *p_lambos {new int[size]{}}; // All values set to 0
+    int *p_ferraris {new int[size]{1,2,3,4,5}}; // first slots of array set to 1,2,3,4,5 then rest are set to 0
+
+    
+
+    if (p_ferraris) // Null pointer check
+    {
+        // Iterating through a heap array
+        for (size_t i{}; i < size; i++)
+        {
+            std::cout << p_ferraris[i] << std::endl;
+        }
+    }
+
+    // releasing memory (for arrays)
+
+    delete[] p_bugattis;
+    p_bugattis = nullptr;
+
+    delete[] p_lambos;
+    p_lambos = nullptr;
+
+    delete[] p_ferraris;
+    p_ferraris = nullptr;
+
+    // Pointers initialized from dynamic arrays are different from regular arrays:
+    // std::size doesent work on them and they dont support range based for loops
+    // so you must have a way of knowing the size beforehand
+
+    int *redBuggatis = new int[size] {1,2,3,4,5,6,7,8,9,10};
+
+    //std::cout << std::size(redBuggatis) << std::endl; // error
+
+    // for (int redBuggati : redBuggatis) // range based loops dont work either
+    // {
+    //     std::cout << "Red Buggatis: " << redBuggati << std::endl;
+    // }
+}
 
 int main(void)
 {  
@@ -311,9 +476,11 @@ int main(void)
 //    CharacterArrays(); 
 //    Pointers();
 //    DynamicMemory();
-
-DanglingPointers();
-
+//    DanglingPointers();
+//    FailingNewOperatorAndTryCatches();
+//    NullPointerSafety();
+//    MemoryLeaks();
+DynamicArrays();
 }
 
 
