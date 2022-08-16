@@ -464,6 +464,56 @@ void DynamicArrays()
     // }
 }
 
+// References are aliases to variables used by &
+void References()
+{
+    int intValue {36};
+
+    int& intValueReference {intValue}; // they both point to the same variable so manipulating anything will result in the same values when printed, "They are EXACTLY the same"
+
+    intValueReference = 2;
+
+    std::cout << intValue << std::endl;
+
+    std::cout << intValueReference << std::endl;
+
+    // References are somewhat like const pointers e.g:
+
+    int intValue2{32};
+
+    int* const constPtr = &intValue;
+
+    //constPtr = &intValue2; Error
+
+    *constPtr = intValue2;
+
+    std::cout << *constPtr << std::endl;
+
+
+    // Can also make a reference a const which may be handy
+    
+    const int& intValueReference2{intValue}; // const REFERENCE not const VARIABLE
+
+    //intValueReference2 = 2; // error
+
+    std::cout << intValueReference2 << std::endl; 
+
+    // but modifying hte initial int works
+
+    intValue = 2;
+
+    std::cout << intValueReference2 << std::endl; 
+
+    // Can also do the same thing with const ref with pointer : const pointer to const data
+    // a reference by default is like a const pointer. All we need to do is make the const pointer to point to const data
+
+    const int* const const_ptr_to_const_intValue{&intValue};
+
+    // Error:  *const_ptr_to_const_intValue = 23; 
+
+    std::cout << *const_ptr_to_const_intValue << std::endl; 
+}
+
 int main(void)
 {  
 
@@ -480,7 +530,8 @@ int main(void)
 //    FailingNewOperatorAndTryCatches();
 //    NullPointerSafety();
 //    MemoryLeaks();
-DynamicArrays();
+//    DynamicArrays();
+References();
 }
 
 
