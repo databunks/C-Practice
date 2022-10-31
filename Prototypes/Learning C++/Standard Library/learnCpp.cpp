@@ -1,5 +1,8 @@
+#include "HeaderGaurdTest.h"
+
 #include <iostream>
 #include <iomanip>
+#include <cstring>
 
 void ReadMeInSomeShit()
 {
@@ -19,7 +22,7 @@ void ReadMeInSomeShit()
 
 void SpaceShipAndStd()
 {
-    // The three-way comparison operator “<=>” is called a spaceship operator. The spaceship operator determines for two objects A and B whether A < B, A = B, or A > B. The spaceship operator or the compiler can auto-generate it for us.
+    /*// The three-way comparison operator “<=>” is called a spaceship operator. The spaceship operator determines for two objects A and B whether A < B, A = B, or A > B. The spaceship operator or the compiler can auto-generate it for us.
     auto result = (10 <=> 20) > 0;
 
     //std::cout handles all types for you, while printf requires specific syntax
@@ -42,7 +45,7 @@ void SpaceShipAndStd()
   
     // If ans is greater than zero
     else if (ans > 0)
-        std::cout << "-0 is greater than 0" << std::endl;
+        std::cout << "-0 is greater than 0" << std::endl; */
 }
 
 
@@ -208,6 +211,15 @@ void Pointers()
     // Cant be doing shite like this *specialCharPtr = 'N';
     // try always declaring char* with consts because of shit like this 
     // if you want to modify this char* use regular arrays   
+
+
+    /*size_t i{};
+    char *message{"Wagwaaaaaaaaaaan laddddddDDD324"};
+
+    while (message[i] != '\0')
+    {
+        std::cout << message[i] << std::endl;
+    }*/
 }
 
 
@@ -514,6 +526,123 @@ void References()
     std::cout << *const_ptr_to_const_intValue << std::endl; 
 }
 
+// Documentation: https://en.cppreference.com/w/cpp/header/cctype
+void CharacterManipulation()
+{
+    // Check if a character is alphanumeric
+
+    std::cout << "Is C alphanumeric? : " << (bool)std::isalnum('C') << std::endl; // returns 1  
+    std::cout << "Is * alphanumeric? : " << (bool)std::isalnum('*') << std::endl; // returns 0
+
+    std::cout << "Is C alphabetic? : " << (bool)std::isalpha('C') << std::endl; // returns 1  
+    std::cout << "Is 0 alphabetic? : " << (bool)std::isalpha('0') << std::endl; // returns 0
+
+    char message[] {"Oi d4rl!n w4ke th3 fuck up"};
+
+    std::cout << "Message: " << message << std::endl;
+
+    int blankCharCount{};
+
+    for (size_t i{}; i < std::size(message); i++)
+    {
+        if (std::isblank(message[i]))
+        {
+            blankCharCount++;
+            std::cout << "Blank character found at index " << i << "\n";
+        }
+    }
+
+    std::cout << "In total we found " << blankCharCount << " blank characters" << std::endl;
+
+    // Can also use std::toupper, std::isupper, std::tolower, std::islower
+
+    int uppercaseCharCount{};
+    int lowercaseCharCount{};
+    int digitCharCount{};
+
+        // or auto
+    for (char Char : message)
+    {
+        if (std::isupper(Char))
+        {
+            uppercaseCharCount++;
+            std::cout << "Upper case character: " << Char << "\n";
+        }
+        else if (std::islower(Char))
+        {
+            lowercaseCharCount++;
+            std::cout << "Lower case character: " << Char << "\n";
+        }
+        else if (std::isdigit(Char))
+        {
+            digitCharCount++;
+            std::cout << "Digit character: " << Char << "\n";
+        }
+    }
+
+    std::cout << "Upper case character Count : " << uppercaseCharCount << "\n";
+    std::cout << "Lower case character Count : " << lowercaseCharCount << "\n";
+    std::cout << "Digit character Count : " << digitCharCount << "\n";
+}
+
+// Documentation: https://en.cppreference.com/w/cpp/header/cstring
+void C_StringManipulation()
+{
+    // std::strlen finds the length of a string
+    const char message1[] {"The sky is red"};
+
+    // Array decays into pointer when we use const char*
+
+    // **** std::strlen comes in really handy when you cant use std::size or range based loops
+    const char *message2 {"The earth is flat"};
+
+    std::cout << std::strlen(message1) << std::endl;
+
+    std::cout << std::strlen(message2) << std::endl;
+
+    // std::strcmp
+    // returns negative values if lhs appears before rhs in lexicographical order (In mathematics, the lexicographic or lexicographical order (also known as lexical order, or dictionary order) is a generalization of the alphabetical order of the dictionaries to sequences of ordered symbols or, more generally, of elements of a totally ordered set)
+    // 0 if lhs and rhs are equal
+    // positive if lhs appears after rhs in lexicographical order
+
+    const char *strCmp1 {"Wag1 lad"};
+    const char *strCmp2 {"Wag2 lad"};
+
+    std::cout << "strcmp str1 and str2: " << std::strcmp(strCmp1, strCmp2) << std::endl;
+    std::cout << "strcmp str2 and str1: " << std::strcmp(strCmp2, strCmp1) << std::endl;
+
+    // Can also compare the first n characters between 2 strings (std::strncmp)
+    std::cout << "strcmp str1 and str2: " << std::strncmp(strCmp1, strCmp2, 3) << std::endl;
+
+    // Finding the first occurrence of a character
+    
+    const char *strChr {"What is the definition of !nsanity"};
+    char target = '!';
+    const char *result = strChr;
+    int iterations{};
+
+    while ((result = std::strchr(result, target)) != nullptr)
+    {
+        std::cout << "Found '" << target << "' starting at '" << result << "'\n";
+        result++; // incrementing makes it point to the next character
+        iterations++; 
+    }
+
+    //std::cout << std::strchr(strChr, target) << std::endl;
+
+    // Find last occurance
+
+    const char input[] {"What is the definition of !nsanity"};
+
+    const char* output = std::strrchr(input, 'a');
+
+    if (output)
+    {
+        std::cout << output << std::endl;
+    }
+
+}
+
 int main(void)
 {  
 
@@ -531,8 +660,56 @@ int main(void)
 //    NullPointerSafety();
 //    MemoryLeaks();
 //    DynamicArrays();
-References();
+//    References();
+//    CharacterManipulation();
+//   C_StringManipulation();
+
+
+    
 }
 
+/*
+struct MyStruct {
+public:
+    MyStruct(int x):m_myInt{x}
+    {}
+    int myInt();
+    void myInt(int x);
+    friend std::ostream & operator<<(std::ostream const &, const MyStruct &);
+    friend MyStruct& operator+(MyStruct &, MyStruct &);
+private:
+    int m_myInt;
+}
+
+int MyStruct::myInt() {
+    return m_myInt;
+}
+
+void MyStruct::myInt(int x) {
+    m_myInt = x;
+}
+
+std::ostream & operator<<(std::ostream const & os,const MyStruct & it ) {
+    os << "My Value: " << it.m_myInt << "\n";
+    return os;
+}
+
+MyStruct & operator+(MyStruct&val1, MyStruct& val2) {
+    val1.m_myInt += val2.m_myInt;
+    return val1;
+}
+
+std::cout << myStruct
+*/
 
 
+void * memset(void* data, char val, size_t size) 
+{
+    char* temp = (char *)data;
+    while(temp != (data+size))
+    {
+        *temp = val;
+        ++temp;
+    }
+    return data;
+}

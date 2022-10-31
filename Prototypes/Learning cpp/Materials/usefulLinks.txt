@@ -1,2 +1,0 @@
-https://code.visualstudio.com/docs/cpp/config-linux for configuring gcc on linux
-https://stackoverflow.com/questions/4176326/arguments-to-main-in-c  the point of passing in arguments to main

@@ -1,5 +1,0 @@
-
-function SendMessage(message : string)
-{
-    
-}
