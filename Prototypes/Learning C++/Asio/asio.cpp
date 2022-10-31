@@ -33,18 +33,10 @@ int main()
 
     if (socket.is_open())
     {
-        SendAndReceiveData(socket, ec);
-    }
-
-    return 0;
-}
-
-void SendAndReceiveData( asio::ip::tcp::socket socket, asio::error_code ec )
-{
         std::string sRequest =
-                "GET /index.html HTTP/1.1\r\n"
-                "Host: example.com\r\n"
-                "Connection: close\r\n\r\n";
+            "GET /index.html HTTP/1.1\r\n"
+            "Host: example.com\r\n"
+            "Connection: close\r\n\r\n";
 
         // Reading and writing data with asio is done through buffers
         socket.write_some(asio::buffer(sRequest.data(), sRequest.size()), ec);
@@ -79,4 +71,9 @@ void SendAndReceiveData( asio::ip::tcp::socket socket, asio::error_code ec )
                 std::cout << c;
             }
         }
+        
+    }
+
+    return 0;
 }
+
